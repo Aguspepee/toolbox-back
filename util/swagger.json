@@ -1,0 +1,153 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Toolbox API",
+        "description": "This API was created for the Toolbox FullStack challenge by Agustín Ezequiel Sánchez",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3001/"
+        }
+    ],
+    "tags": [
+        {
+            "name": "files",
+            "description": "Everything about your filess",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "http://swagger.io"
+            }
+        }
+    ],
+    "paths": {
+        "/files/data?fileName={fileName}": {
+            "get": {
+                "tags": [
+                    "files"
+                ],
+                "summary": "Get all valid files or file with specific name",
+                "description": "Return a JSON with all the documents that are valid or one document that match with the fileName in the query string.",
+                "operationId": "getdata",
+                "parameters": [
+                    {
+                        "name": "fileName",
+                        "in": "path",
+                        "description": "Name of the CSV file",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/data"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error"
+                    }
+                },
+                "security": [
+                    {
+                        "filesstore_auth": [
+                            "write:filess",
+                            "read:filess"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/files/list": {
+            "get": {
+                "tags": [
+                    "files"
+                ],
+                "summary": "List all files in the external API",
+                "description": "Return a JSON list with all the documents available in the external API given for the challenge",
+                "operationId": "getlist",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/files"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error"
+                    }
+                },
+                "security": [
+                    {
+                        "filesstore_auth": [
+                            "write:filess",
+                            "read:filess"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "files": {
+                "type": "object",
+                "properties": {
+                    "files": {
+                        "type": "array",
+                        "example": [
+                            "test1.csv",
+                            "test2.csv",
+                            "test3.csv",
+                            "test4.csv",
+                            "test5.csv",
+                            "test6.csv",
+                            "test9.csv"
+                        ]
+                    }
+                },
+                "xml": {
+                    "name": "order"
+                }
+            },
+            "data": {
+                "type": "object",
+                "properties": {
+                    "file": {
+                        "type": "string",
+                        "example": "test9.csv"
+                    },
+                    "lines": {
+                        "type": "array",
+                        "example": [
+                            {
+                                "text": "ePbDyFrDUeRcZkOPKrGsGaimlxAOuF",
+                                "number": 915689,
+                                "hex": "c4f077d8d7aeb8745fb9c76fba6353de"
+                            },
+                            {
+                                "text": "KNDcu",
+                                "number": 847,
+                                "hex": "fa167026ba5e7a171ca72f31b693f876"
+                            }
+                        ]
+                    }
+                },
+                "xml": {
+                    "name": "order"
+                }
+            }
+        }
+    }
+}
